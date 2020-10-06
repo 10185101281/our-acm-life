@@ -12,4 +12,5 @@
 
 ## SG函数
 
-​	SG函数，实际上是 **ICG游戏向NIM游戏规约的工具**。（待证明）
+​	SG定理如何提出：https://zhuanlan.zhihu.com/p/20611132
+
