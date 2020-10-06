@@ -2,7 +2,7 @@
 
 ----
 
-##L River Game
+## L River Game
 
 ### 题意
 
