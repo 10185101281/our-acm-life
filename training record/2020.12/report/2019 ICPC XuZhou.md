@@ -54,4 +54,58 @@ int main(){
 
 ### 思路
 
+​	考虑对于每棵子树，其重心一定是在重儿子到根的这条路径上。
+
+​	预处理出每棵子树的大小，暴力扫描这条路径即可，这样整体复杂度是$O(N)$的。
+
+​	注意处理一颗树可能存在两个重心的情况。
+
 ### 代码
+
+```c++
+#include <bits/stdc++.h>
+
+using namespace std;
+#define pii pair<int,int>
+#define pb push_back
+#define fir first
+#define sec second
+#define ll long long
+
+const int N = 2e5+10;
+vector<int> es[N];
+int n;
+int sz[N]{0}, f[N]{0}, ans[N]{0}, ans1[N]{0};
+void dfs(int x,int fa){
+    sz[x] = 1; ans[x] = x;
+    int son = 0;
+    for(auto &y: es[x]){
+        if(y == fa) continue;
+        f[y] = x;
+        dfs(y, x);
+        sz[x] += sz[y];
+        if(sz[y] > sz[son]) son = y;
+    }
+    if(2*sz[son] >= sz[x]){
+        ans[x] = ans[son];
+        while(2*sz[ans[x]] < sz[x]) ans[x] = f[ans[x]];
+        if(2*sz[ans[x]]==sz[x]) ans1[x] = f[ans[x]];
+    }
+}
+int main(){
+    cin>>n;
+    for(int i=1; i<n; i++){
+        int x, y; scanf("%d%d",&x,&y);
+        es[x].pb(y); es[y].pb(x);
+    }
+    dfs(1, -1);
+    for(int i=1; i<=n; i++){
+        if(ans1[i]) printf("%d ",min(ans[i],ans1[i]));
+        printf("%d\n",max(ans[i],ans1[i]));
+    }
+    return 0;
+}
+```
+
+----
+
