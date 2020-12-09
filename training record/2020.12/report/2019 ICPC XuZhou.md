@@ -6,11 +6,11 @@
 
 ### 思路
 
-​	对于1～n的前缀异或和：
-
-​		$\begin{cases} n & (n\ mod\ 4 = 0)\\ 1 & (n\ mod\ 4 = 1)\\ n+1&(n\ mod\ 4 = 2)\\ 0&(n\ mod\ 4 = 3)\end{cases}$
-
-​	那么区间$L,R$左右收缩几步后，必然可以得到异或和为0，比这个更小的区间就没有必要讨论了。因此，枚举$l\in[L,L+10],r\in[R-10,R]$的情况，取max即可。
+	对于1～n的前缀异或和：
+	
+		$\begin{cases} n & (n\ mod\ 4 = 0)\\ 1 & (n\ mod\ 4 = 1)\\ n+1&(n\ mod\ 4 = 2)\\ 0&(n\ mod\ 4 = 3)\end{cases}$
+	
+	那么区间$L,R$左右收缩几步后，必然可以得到异或和为0，比这个更小的区间就没有必要讨论了。因此，枚举$l\in[L,L+10],r\in[R-10,R]$的情况，取max即可。
 
 ### 代码
 
@@ -54,11 +54,11 @@ int main(){
 
 ### 思路
 
-​	考虑对于每棵子树，其重心一定是在重儿子到根的这条路径上。
-
-​	预处理出每棵子树的大小，暴力扫描这条路径即可，这样整体复杂度是$O(N)$的。
-
-​	注意处理一颗树可能存在两个重心的情况。
+	考虑对于每棵子树，其重心一定是在重儿子到根的这条路径上。
+	
+	预处理出每棵子树的大小，暴力扫描这条路径即可，这样整体复杂度是$O(N)$的。
+	
+	注意处理一颗树可能存在两个重心的情况。
 
 ### 代码
 
@@ -113,11 +113,11 @@ int main(){
 
 ### 思路
 
-​	用pollard_rho算法对X进行质因数分解。
-
-​	枚举每个质因子在$\frac{Y!}{Z}$中剩余多少。
-
-​	最后贪心拼$X$即可。
+	用pollard_rho算法对X进行质因数分解。
+	
+	枚举每个质因子在$\frac{Y!}{Z}$中剩余多少。
+	
+	最后贪心拼$X$即可。
 
 ### 代码
 
@@ -231,9 +231,10 @@ int main(){
 $Description$
 
 给定长为$n$的序列$A_i$，两种操作：
+
 1. 将某个数$A_i$修改为$v$。
 2. 查询用区间$[l,r]$内的数不能组成的最小的数（能组成$v$是指存在一个$[l,r]$的子集$s$使$s$的和等于$v$）。
-$n,A_i\leq 2\times10^5$。
+   $n,A_i\leq 2\times10^5$。
 
 $Solution$
 [BZOJ(CodeChef)原题树套树版](https://www.cnblogs.com/SovietPower/p/9636966.html)
@@ -246,6 +247,7 @@ $Solution$
 这个带修改主席树，每个位置维护一个前缀和即可，查询是单点查询。（不太懂他们麻烦的写法）
 
 -----
+
 ```cpp
 //1144ms	486.4MB
 #include <bits/stdc++.h>
@@ -343,6 +345,153 @@ int main()
 	}
 
 	return 0;
+}
+```
+
+## L.Loli, Yen-Jen, and a graph problem
+
+题意：给出一个char组成的树，一个询问X,L表示从X开始往上跳L个节点字符串s，可以通过多少个不同的（X,L）二元组组成。
+
+题解：
+
+广义后缀自动机（原来last不仅仅能指向1，还能指向用过的节点）
+
+每个询问的串可以是看成以字符X结尾，长度为L的后缀
+
+对于每个询问，由于我们已经知道当前节点的位置，显然当前节点表示的串已经是一个满足条件的串。毕竟在插入的过程中已经保证了X前面一定是有这样的字符的。
+
+然后考虑后缀树的特点，同一颗后缀树上的后缀一定是相同的，只要保证 >= L 即可，因此可以跳fail
+
+那显然可以倍增找到后返回Size就行（暴力跳居然过了）
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 6e5+100;
+const int maxc = 27;
+ typedef long long ll;
+struct SAM{
+ 
+	int tot=1,last=1;//last -> 旧主串的节点
+	int fa[maxn],len[maxn];
+	ll size[maxn];
+	int cup[maxn],mp[maxn];
+	int son[maxn][maxc];
+	int val[maxn];
+	
+	//1 号节点为初始节点 初始节点没有fa
+	
+	//建SAM
+	int extend (int c)
+   {
+   	
+	   	if(son[last][c]){
+	   		int p = last , x = son[p][c];
+	   		if(len[p] + 1 == len[x]) return last = x;
+	   		else{
+	   			int y = ++tot; len[y] = len[p] + 1;
+	   			for (int i = 0 ; i < 26 ; ++i) son[y][i] = son[x][i];
+	   			while(p && son[p][c] == x) son[p][c] = y , p = fa[p];
+	   			fa[y] = fa[x], fa[x] = y;
+	   			return last = y; 
+	   		}
+	   		
+	   	}
+   	
+       int p=last,np=++tot;
+       last=tot,len[np]=len[p]+1;
+       while (p&&!son[p][c])   son[p][c]=np,p=fa[p];
+      
+       if (!p) fa[np]=1;
+       else{
+          
+           int q=son[p][c];
+           if (len[q]==len[p]+1) fa[np]=q;//val[np]=tp;
+           else{
+              
+               int nq=++tot;
+               len[nq]=len[p]+1;
+               fa[nq]=fa[q];
+               fa[np]=fa[q]=nq;
+               memcpy(son[nq],son[q],sizeof(son[q]));
+               while (son[p][c]==q)   
+   				son[p][c]=nq,p=fa[p];
+   			//val[np] = tp;
+           }
+       }
+       //size[np]=1;//该节点right大小初值赋值为1
+       return np;
+   }
+   
+
+	
+	void getSize(){
+	//	cout << len[last]<<endl;
+		for (int i = 1 ; i <=tot;++i) cup[len[i]] = 0;
+		for (int i=1;i<=tot;++i)    ++cup[len[i]];
+		for (int i=1;i<=tot;++i)    cup[i]+=cup[i-1];
+		for (int i=1;i<=tot;++i)    mp[cup[len[i]]--]=i;
+		
+		for (int i=tot;i>=1;--i)  
+		{
+			int p = mp[i];
+		  	size[fa[p]]+=size[p];
+		  	
+		}
+	}
+ 
+    inline void init()
+    {
+        last = tot = 1;
+        fa[1]=0;
+        memset(son,0,sizeof(son));
+    }
+ 
+}sam; 
+
+char str[maxn];
+int n,m;
+
+int sav[maxn];
+vector<int> G[maxn];
+
+void build(int pos){
+	sav[pos] = sam.extend(str[pos] - 'A');
+	sam.size[sam.last]++;
+	
+	for (int v : G[pos]){
+		sam.last = sav[pos];
+		build(v);
+	}
+}
+
+int getAns(int x , int L){
+	x = sav[x];
+	while(sam.len[sam.fa[x]] >= L){
+		x = sam.fa[x];
+	}
+	return sam.size[x];
+}
+int main(){
+	sam.init();
+	cin >> n >> m;
+	cin >> str+1;
+	int x , y;
+	for (int i = 1+1 ; i <= n ; ++i){
+		cin >> x;
+		if(x != i)
+			G[x].push_back(i);
+	}	
+	
+	build(1);
+	sam.getSize();
+	
+	while(m--){
+		cin >> x >> y;
+		cout << getAns(x,y) << endl;
+	}
+	return 0;
+	
 }
 ```
 
