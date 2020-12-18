@@ -81,3 +81,125 @@ int main(){
 }
 ```
 
+------
+
+## E Sum Over Subsets
+
+### 思路
+
+​	设$g(n)$为集合的$gcd$恰好为$n$时的答案。
+
+​	设$f(n)$为集合的$gcd$为$n$倍数时的答案。
+
+​	那么有，$f(n)=\sum_{n\mid d}g(d)$
+
+​	由莫比乌斯反演，有$g(n)=\sum_{n\mid d} \mu(\frac{d}{n})f(d)$
+
+​	则答案为$g(1)=\sum_d\mu(d)f(d)$
+
+​	即预处理所有$f(i)$。
+
+​	枚举$i$，对于$\sum_{x\in A}·\sum_{y\in B}xy$，枚举每对$xy$的贡献：
+
+​		设$|S|$为当前集合$A$的大小，
+
+​		（1）当$x$和$y$是同个数时：
+
+​			$x^2\times freq_x\times(|S|-1)\times 2^{|S|-2}$
+
+​		（2）当$x,y$相同，但不是同个数时：
+
+​			$x^2\times freq_x(freq_x-1)\times ((|S|-2)\times 2^{|S|-3}+2^{|S|-2})$
+
+​		（3）当$x,y$不相同时：
+
+​			$xy\times freq_x\times freq_y\times ((|S|-2)\times 2^{|S|-3}+2^{|S|-2})$
+
+### 代码
+
+```c++
+#include <bits/stdc++.h>
+
+using namespace std;
+#define ll long long
+inline ll add(ll a,ll b,ll mod){return (a+b)%mod;}
+inline ll sub(ll a,ll b,ll mod){return ((a-b)%mod+mod)%mod;}
+inline ll mul(ll a,ll b,ll mod){return a*b%mod;}
+ll qpow(ll a,ll b,ll mod){
+    ll ret = 1;
+    for(; b; b>>=1){
+        if(b & 1) ret = mul(ret,a,mod);
+        a = mul(a,a,mod);
+    }
+    return ret;
+}
+ll C2(ll x,ll mod){
+    return mul(x,sub(x,1,mod),mod);
+}
+
+const int N = 1e5+10;
+const int maxn = 1e5;
+
+ll mu[N]{0}; int v[N];
+void init(int n,ll mod){
+    for(int i=1; i<=n; i++) mu[i] = 1;
+    memset(v, 0, sizeof(v));
+    for(int i=2; i<=n; i++){
+        if(v[i] == 0){
+            for(int j=i; j<=n; j+=i){
+                if((j/i)%i == 0) mu[j] = 0;
+                else mu[j] = mu[j]*(-1);
+                v[j] = 1;
+            }
+        }
+    }
+    for(int i=1; i<=n; i++) mu[i] = add(mu[i], mod, mod);
+}
+
+const ll mod = 998244353;
+const ll mod1 = mod-1;
+ll a[N], freq[N];
+int main(){
+    int m; scanf("%d",&m);
+    for(int i=1; i<=m; i++){
+        scanf("%lld",a+i);
+        scanf("%lld",freq+a[i]);
+    }
+    init(maxn,mod);
+    ll ans = 0;
+    for(int i=1; i<=maxn; i++){
+        ll s = 0, ts = 0, sum = 0;
+        for(int j=i; j<=maxn; j+=i) s = s + freq[j];
+        if(s < 2) continue;
+        ts = s % mod1;
+        s = s % mod;
+
+        ll d1 = mul(sub(s,1,mod),qpow(2,sub(ts,2,mod1),mod),mod);
+        ll d2 = add(
+                mul(sub(s,2,mod),qpow(2,sub(ts,3,mod1),mod),mod),
+                qpow(2,sub(ts,2,mod1),mod),
+                mod
+                );
+
+        for(int j=i; j<=maxn; j+=i){
+            sum = add(sum,
+                    mul(j,freq[j],mod),
+                    mod);
+        }
+        ll fi = 0;
+        for(int j=i; j<=maxn; j+=i){
+            ll t1 = mul(mul(mul(j,j,mod),freq[j],mod),d1,mod);
+            ll t2 = mul(mul(mul(j,j,mod),C2(freq[j],mod),mod),d2,mod);
+            ll t3 = mul(
+                    mul(mul(j,freq[j],mod),sub(sum,mul(j,freq[j],mod),mod),mod),
+                    d2,
+                    mod);
+            fi = add(fi,add(t1,add(t2,t3,mod),mod),mod);
+        }
+        ans = add(ans, mul(mu[i],fi,mod),mod);
+    }
+    cout<<ans<<endl;
+    return 0;
+}
+```
+
