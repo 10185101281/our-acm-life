@@ -98,9 +98,79 @@ https://www.cnblogs.com/reverymoon/p/14153891.html
 
 ## 6 Sum
 
+### 做法1
+
+​	分治，背包DP。
+
+```c++
+#include <bits/stdc++.h>
+
+using namespace std;
+#define ll long long
+#define pb push_back
+#define fir first
+#define sec second
+
+const int N = 3e3+10;
+int n, k, t[N]; ll a[N][N]{0};
+ll f[N];
+ll ans = 0;
+void dp(int l,int r){
+    if(l == r){
+        //cout<<l<<":"<<endl;
+        //for(int j=0; j<=k; j++) cout<<f[j]<<' '; cout<<endl;
+        for(int i=0; i<=t[l]; i++){
+            ans = max(ans, f[k-i]+a[l][i]);
+        }
+        return ;
+    }
+
+    int mid = l+r>>1;
+
+    ll tf[N];
+    for(int i=0; i<=k; i++) tf[i] = f[i];
+    for(int i=l; i<=mid; i++){
+        for(int j=max(0, k-t[i]); j>=0; --j){
+            f[j+t[i]] = max(f[j+t[i]],f[j]+a[i][t[i]]);
+        }
+    }
+    dp(mid+1, r);
+
+    for(int i=0; i<=k; i++) f[i]= tf[i];
+    for(int i=mid+1; i<=r; i++){
+        for(int j=max(0, k-t[i]); j>=0; --j){
+            f[j+t[i]] = max(f[j+t[i]],f[j]+a[i][t[i]]);
+        }
+    }
+    dp(l,mid);
+}
+int main(){
+    cin>>n>>k;
+    for(int i=1; i<=n; i++){
+        scanf("%d",t+i);
+        for(int j=1; j<=t[i]; j++){
+            ll x; scanf("%lld",&x);
+            if(j<=k){
+                a[i][j] = a[i][j-1] + x;
+            }
+        }
+        t[i] = min(t[i], k);
+    }
+    memset(f, 0xcf, sizeof(f));
+    f[0] = 0;
+    dp(1,n);
+    cout<<ans<<endl;
+    return 0;
+}
+```
+
+
+
 ---
 
 ## 7 Lucky Numbers
+
+https://www.cnblogs.com/zkyJuruo/p/13834434.html
 
 ---
 
