@@ -182,7 +182,7 @@ https://www.cnblogs.com/zkyJuruo/p/13834434.html
 
 ---
 
-## 10 The Hanged Man
+## 10 The Hanged Man（HDU 6566）
 
 ---
 
