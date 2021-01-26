@@ -232,9 +232,13 @@ https://www.cnblogs.com/zkyJuruo/p/13834434.html
 
 ## 8 String Transformation
 
+https://codeforces.com/blog/entry/80562
+
 ---
 
 ## 9 Financiers Game
+
+https://blog.csdn.net/ModestCoder_/article/details/97135057
 
 ---
 
@@ -246,3 +250,4 @@ https://www.cnblogs.com/lhm-/p/13697304.html
 
 ## 11 Cell Blocking
 
+https://www.cnblogs.com/Ike-shadow/p/14093202.html
