@@ -226,7 +226,60 @@ int main(){
 
 ## 7 Lucky Numbers
 
-https://www.cnblogs.com/zkyJuruo/p/13834434.html
+### 题解-bl
+
+​	如果不限制数的和。那么可以将数看作物品，数的数量是物品的个数，数的大小是物品的重量，数在表中是物品的价值。那么就是一个多重背包问题。
+
+​	现在限制了恰好画k个数，且数的和为n。显然，对于每个数位，贪心地考虑最多只有一个数在这个位置不为3的倍数。那么对于k-1个数，我们按照上面的方法进行多重背包，最后的一个数预处理其价值即可。	
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+const int M = 1e6;
+ll F[10];
+ll f[M+100]; 
+int main(){
+    int k; scanf("%d",&k);
+    for(int i=0; i<6; i++) scanf("%lld",F+i);
+    memset(f, 0, sizeof(f));
+    for(int i=0; i<M; i++){
+        int d = 0, x = i;
+        while(x){
+            int now = x%10;
+            if(now%3==0) f[i] += F[d]*(now/3);
+            d++;
+            x/=10;
+        }
+    }
+    int base = 3;
+    for(int i=0; i<6; i++){
+        for(int j=1; j<=3; j++){
+            int res = min(k-1, (M-1)/base);
+            for(int t=1; t<res; t<<=1){
+                int d = base*t; res -= t;
+                for(int p=M-1; p>=0; --p){
+                    if(p < d) break;
+                    f[p] = max(f[p],f[p-d]+ F[i]*t);
+                }
+            }
+            int d = base*res;
+            for(int p=M-1; p>=0; --p){
+                if(p < d) break;
+                f[p] = max(f[p],f[p-d]+ F[i]*res);
+            }
+        }
+        base = base*10;
+    }
+    int q; scanf("%d",&q);
+    while(q--){
+        int n; scanf("%d",&n);
+        printf("%lld\n",f[n]);
+    }
+    return 0;
+}
+```
 
 ---
 
