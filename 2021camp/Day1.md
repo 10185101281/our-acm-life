@@ -82,11 +82,67 @@ https://www.cnblogs.com/heyujun/p/10225419.html
 
 ​	$1\le n\le 12$。
 
-### 题解
+### 题解-bl
 
 ​	轮廓线DP。
 
-https://blog.csdn.net/qq_40859782/article/details/102489374
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define fir first
+#define sec second
+#define pii pair<int, int>
+#define ll long long
+const int N = 15;
+const int M = (1<<24)+10;
+
+char g[N][N]; int w[N][N];
+int f[M];
+int bitcnt(int x){
+    int ret = 0;
+    for(; x; x-=x&-x) ret++;
+    return ret;
+}
+vector< pair<int,pii> > vec;
+int main(){
+    int n;
+    while(scanf("%d",&n) == 1) {
+        for (int i = 0; i < n; i++) scanf("%s", g[i]);
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                scanf("%d", &w[i][j]);
+            }
+        }
+        int t = (1<<n) - 1, s = t << n;
+        //memset(f, 0x3f, sizeof(f));
+        for(int st=s; st>=t; --st) f[st] = 0x3f3f3f3f;
+        f[s] = 0;
+        for (int st = s; st >= t; --st) {
+            if (bitcnt(st) != n) continue;
+            vec.clear();
+            int x = n - 1, y = n;
+            for (int i = 0; i < 2 * n - 1; i++) {
+                if ((st >> i) & 1) x--;
+                else y--;
+                if (((st >> (i + 1)) & 1) == 0 || ((st >> i) & 1) == 1) continue;
+                f[st - (1 << i)] = min(f[st - (1 << i)], f[st] + (g[x][y] != '.') * w[x][y]);
+                if(g[x][y] == '.') continue;
+                for(auto &pr: vec){
+                    int j=pr.fir, tx = pr.sec.fir, ty = pr.sec.sec;
+                    if (g[x][y] + g[tx][ty] != 'W' + 'B') continue;
+                    f[st - (1 << i) - (1 << j)] = min(f[st - (1 << i) - (1 << j)], f[st] + abs(w[x][y] - w[tx][ty]));
+                }
+                vec.pb(pair<int,pii>{i,pii{x, y}});
+            }
+        }
+        printf("%d\n", f[t]);
+    }
+    return 0;
+}
+```
+
+
 
 ----
 
@@ -98,7 +154,7 @@ https://www.cnblogs.com/reverymoon/p/14153891.html
 
 ## 6 Sum
 
-### 做法1
+### 做法1 分治DP-bl
 
 ​	分治，背包DP。
 
@@ -164,7 +220,7 @@ int main(){
 }
 ```
 
-
+### 做法2 退背包-gxb
 
 ---
 
@@ -183,6 +239,8 @@ https://www.cnblogs.com/zkyJuruo/p/13834434.html
 ---
 
 ## 10 The Hanged Man（HDU 6566）
+
+https://www.cnblogs.com/lhm-/p/13697304.html
 
 ---
 
