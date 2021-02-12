@@ -291,7 +291,87 @@ https://codeforces.com/blog/entry/80562
 
 ## 9 Financiers Game
 
-https://blog.csdn.net/ModestCoder_/article/details/97135057
+### 描述
+
+​	两人从长度为n数列两端取数。一个人取了k个数，下一个人须取k或k+1个。最开始可以取1个或2个，不能操作时结束。
+
+​	两人都希望自己取到的数字之和尽量大，并保持绝对理智。
+
+​	求最后取到的数字之和之差。
+
+### 题解-bl
+
+​	设$f[l][r][k][0/1]$表示左侧取到$l$，右侧取到$r$，当前$k$值，操作方。
+
+​	由于$k$最多为$\sqrt N$级别，$l,n-r$相差最多为$k$，实际复杂度为$O(N^2)$。
+
+​	状态Hash。
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int, int>
+#define fir first
+#define sec second
+#define pb emplace_back
+
+#define gc() getchar()
+inline int read()
+{
+    int now=0,f=1; char c=gc();
+    for(;!isdigit(c);c=='-'&&(f=-1),c=gc());
+    for(;isdigit(c);now=now*10+c-48,c=gc());
+    return now*f;
+}
+
+const int mod = 998244353;
+inline int add(int a,int b){return a+b>=mod? a+b-mod: a+b;}
+inline int add(int a,int b,int mod){return a+b>=mod? a+b-mod: a+b;}
+inline int sub(int a,int b){return a<b? a-b+mod: a-b;}
+inline int mul(int a,int b){return 1LL*a*b%mod;}
+int qpow(int a,int b){
+    int ret=1;
+    for(; b; b>>=1){
+        if(b&1) ret=mul(ret,a);
+        a=mul(a,a);
+    }
+    return ret;
+}
+const int N = 4e3+5;
+const int M = 5e7;
+const int inf = 1e9;
+int Hash(int a,int b,int c,int d){
+    static ll t1=4000, t2=100, t3=2;
+    return ((((a*t1)+b)*t2+c)*t3+d)%M;
+}
+int a[N], sum[N]{0}, f[M+10];
+inline int cal(int l,int r){
+    return sum[r]-sum[l-1];
+}
+int dfs(int l,int r,int k,int t){
+    if(r-l+1<k) return 0;
+    int s=Hash(l,r,k,t);
+    if(f[s]!=inf) return f[s];
+    int ret;
+    if(t==0){
+        ret = dfs(l+k,r,k,1)+cal(l,l+k-1);
+        if(r-l+1>=k+1) ret=max(ret,dfs(l+k+1,r,k+1,1)+cal(l,l+k));
+    } else {
+        ret = dfs(l,r-k,k,0)-cal(r-k+1,r);
+        if(r-l+1>=k+1) ret=min(ret,dfs(l,r-k-1,k+1,0)-cal(r-k,r));
+    }
+    return f[s]=ret;
+}
+int main(){
+    int n=read();
+    for(int i=1; i<=n; i++) a[i]=read(), sum[i]=sum[i-1]+a[i];
+    for(int i=0; i<M; i++) f[i]=inf;
+    printf("%d\n",dfs(1,n,1,0));
+    return 0;
+}
+```
 
 ---
 
