@@ -311,3 +311,158 @@ int main(){
     return 0;
 }
 ```
+
+---
+
+## E-[Minimum Difference](https://vjudge.net/problem/CodeForces-1476G)
+
+ ### 思路
+
+​	带修莫队。
+
+​	注意到不同的$cnt_i$是$O(\sqrt N)$级的，所以可以$O(1)$维护$cnt_i$的链表，每次询问时用双指针暴力寻找答案。
+
+​	如果直接维护$cnt_i$的链表，无法保证有序，在查询前需要先排序。由于$cnt_i$不会超过$N$，我们可以改成在数组上维护前后位置，这样可以保证$cnt_i$有序。
+
+### 代码
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int, int>
+#define fir first
+#define sec second
+#define pb emplace_back
+
+#define gc() getchar()
+inline int read()
+{
+    int now=0,f=1; char c=gc();
+    for(;!isdigit(c);c=='-'&&(f=-1),c=gc());
+    for(;isdigit(c);now=now*10+c-48,c=gc());
+    return now*f;
+}
+const int mod = 998244353;
+inline int add(int a,int b){return a+b>=mod? a+b-mod: a+b;}
+inline int sub(int a,int b){return a<b? a-b+mod: a-b;}
+inline int mul(int a,int b){return 1LL*a*b%mod;}
+int qpow(int a,int b){
+    int ret=1;
+    for(; b; b>>=1){
+        if(b&1) ret=mul(ret,a);
+        a=mul(a,a);
+    }
+    return ret;
+}
+const int N=2e5+10;
+const int inf=1e9;
+int B;
+struct AE{
+    int l,r,t,k,id;
+}ae[N];
+bool cmp(AE a,AE b){
+    if(a.l/B==b.l/B){
+        if(a.r/B==b.r/B)return a.t<b.t;
+        return a.r<b.r;
+    }
+    return a.l<b.l;
+}
+struct CE{
+    int pos,pr,af;
+}ce[N];
+struct node{
+    int l, r, num;
+}ls[N];
+int a[N];
+int nl, nr, nt;
+int c[N]{0}, ans[N];
+void add(int x){
+    ls[c[x]].num--;
+    ls[c[x]+1].num++;
+    if(ls[c[x]].r!=c[x]+1){
+        ls[c[x]+1].l=c[x];
+        ls[c[x]+1].r=ls[c[x]].r;
+        ls[ls[c[x]].r].l=c[x]+1;
+        ls[c[x]].r=c[x]+1;
+    }
+    if(ls[c[x]].num==0){
+        ls[ls[c[x]].l].r=c[x]+1;
+        ls[c[x]+1].l=ls[c[x]].l;
+    }
+    c[x]++;
+}
+void del(int x){
+    ls[c[x]].num--;
+    ls[c[x]-1].num++;
+    if(ls[c[x]].l!=c[x]-1){
+        ls[c[x]-1].l=ls[c[x]].l;
+        ls[c[x]-1].r=c[x];
+        ls[ls[c[x]].l].r=c[x]-1;
+        ls[c[x]].l=c[x]-1;
+    }
+    if(ls[c[x]].num==0){
+        ls[ls[c[x]].r].l=c[x]-1;
+        ls[c[x]-1].r=ls[c[x]].r;
+    }
+    c[x]--;
+}
+void update(CE e,int p){
+    int x=(p==1)? e.af: e.pr;
+    if(e.pos>=nl&&e.pos<=nr){
+        del(a[e.pos]);
+        add(x);
+    }
+    a[e.pos]=x;
+}
+int b[N];
+int main(){
+    int n=read(), q=read();
+    B=pow(n,2.0/3);
+    for(int i=1; i<=n; i++){
+        a[i]=b[i]=read();
+    }
+    int m1=0, m2=0;
+    for(int i=1; i<=q; i++){
+        int op=read();
+        if(op==1){
+            int l=read(), r=read(), k=read();
+            ae[++m1]=AE{l,r,m2,k,i};
+        } else {
+            int pos=read(), af=read();
+            int pr=b[pos];
+            ce[++m2]=CE{pos,pr,af};
+            b[pos]=af;
+        }
+    }
+    sort(ae+1,ae+1+m1,cmp);
+    nl=1, nr=0, nt=0;
+    ls[0]=node{-1,-1,n+1};
+    for(int i=1; i<=q; i++) ans[i]=-2;
+    for(int i=1; i<=m1; i++){
+       while(nt<ae[i].t) update(ce[++nt],1);
+       while(nt>ae[i].t) update(ce[nt--],-1);
+       while(nr<ae[i].r) add(a[++nr]);
+       while(nl>ae[i].l) add(a[--nl]);
+       while(nr>ae[i].r) del(a[nr--]);
+       while(nl<ae[i].l) del(a[nl++]);
+
+       int tans=inf, k=ae[i].k;
+       for(int l=ls[0].r,num=ls[l].num, r=l; l!=-1; num-=ls[l].num, l=ls[l].r){
+           while(ls[r].r!=-1 && num<k){
+               r=ls[r].r;
+               num+=ls[r].num;
+           }
+           if(num<k) break;
+           tans=min(tans, r-l);
+       }
+       ans[ae[i].id]=(tans==inf)? -1: tans;
+    }
+    for(int i=1; i<=q; i++){
+        if(ans[i]==-2) continue;
+        printf("%d\n",ans[i]);
+    }
+    return 0;
+}
+```
