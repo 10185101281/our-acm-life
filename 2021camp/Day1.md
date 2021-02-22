@@ -50,7 +50,7 @@
 
 ---
 
-## 3 New Year and Original Order（B）
+## 3 New Year and Original Order（GXB）
 
 ### 描述
 
@@ -64,7 +64,7 @@ https://www.cnblogs.com/heyujun/p/10225419.html
 
 ---
 
-## 4 Game on Chessboard（B）
+## 4 Game on Chessboard（BL）
 
 ### 描述
 
@@ -146,7 +146,7 @@ int main(){
 
 ----
 
-## 5 Fountains
+## 5 Fountains（BL）
 
 https://www.cnblogs.com/reverymoon/p/14153891.html
 
@@ -224,11 +224,11 @@ int main(){
 
 ---
 
-## 7 Lucky Numbers
+## 7 Lucky Numbers（BL）
 
 https://codeforces.com/problemset/problem/1428/G2
 
-### 题解-bl
+### 题解
 
 ​	将数看作物品，数的数量是物品的个数，数的大小是物品的重量，数在表中映射是物品的价值。那么就是一个分组多重背包问题。
 
@@ -287,13 +287,129 @@ int main(){
 
 ---
 
-## 8 String Transformation
+## 8 String Transformation（BL）
 
-https://codeforces.com/blog/entry/80562
+### 题目
+
+​	https://codeforces.com/problemset/problem/1383/C
+
+### 题解
+
+​	首先对需要转化的字母关系建图。
+
+​	对每个联通图分别求解：
+
+​	假设当前联通图点为$n$，最大DAG大小为$|LDAG|$，则最少操作为$2*n-|LDAG|-1$。
+
+​	证明：
+
+​		（1）如果对于该联通图，存在一个$k$的可行操作（实际上即选择k个边），那么必然可以得到一个大小为$2*n-k+1$的DAG。
+
+​		（2）考虑增量构造：当加入$(u,v)$时，如果u,v已经联通，则将v从图中删除，否则将两个点的图联通。
+
+​		（3）由于这是可行操作，最终的图必然是联通的。使图联通的边数为$n-1$，那么删减的点数为$k-n+1$，所以这个构造出的DAG大小为$n-(k-n+1)=2*n-k-1$。
+
+​		（4）即$|LDAG|\ge 2*n-k-1$，那么有$k\le 2*n-|LDAG|-1$。（必要）
+
+​		（5）当我们找到最大DAG时，令不在这个DAG上的点连成一个环路，即可构造出操作数为$2*n-|LDAG|-1$的方案。（充分）
+
+​	问题转化为对联通图求解最大DAG，复杂度$O(n\times 2^n)$。
+
+### 代码
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int, int>
+#define fir first
+#define sec second
+#define pb emplace_back
+
+#define gc() getchar()
+inline int read()
+{
+    int now=0,f=1; char c=gc();
+    for(;!isdigit(c);c=='-'&&(f=-1),c=gc());
+    for(;isdigit(c);now=now*10+c-48,c=gc());
+    return now*f;
+}
+const int mod = 998244353;
+inline int add(int a,int b){return a+b>=mod? a+b-mod: a+b;}
+inline int sub(int a,int b){return a<b? a-b+mod: a-b;}
+inline int mul(int a,int b){return 1LL*a*b%mod;}
+int qpow(int a,int b){
+    int ret=1;
+    for(; b; b>>=1){
+        if(b&1) ret=mul(ret,a);
+        a=mul(a,a);
+    }
+    return ret;
+}
+const int N=1e5+10;
+const int M=22;
+int g[M][M];
+vector<int> es[M];
+char s1[N], s2[N];
+int mp[M], rch[M], f[1<<M];
+int bitcnt(int x){int ret=0;for(int i=x; i; i-=i&-i) ret++; return ret;}
+int solve(int G){
+    int n=0, cnt=0;
+    for(int x=0; x<20; x++) if((G>>x)&1) n++, mp[x]=cnt++;
+    for(int x=0; x<20; x++){
+        if((G>>x)&1){
+            rch[mp[x]]=0;
+            for(auto &y: es[x]) rch[mp[x]]|=(1<<mp[y]);
+        }
+    }
+    int LDAG=0, MK=(1<<n);
+    for(int i=0; i<MK; i++) f[i]=0;
+    f[0]=1;
+    for(int i=1; i<MK; i++){
+        for(int j=0; j<n; j++){
+            if((i>>j)&1){
+                f[i]|=f[i^(1<<j)]&&((i&rch[j])==0);
+            }
+        }
+        if(f[i]) LDAG=max(LDAG,bitcnt(i));
+    }
+    return 2*n-LDAG-1;
+}
+int fa[M];
+int get(int x){return fa[x]==x? x: fa[x]=get(fa[x]);}
+int main(){
+    int T=read();
+    while(T--){
+        int n=read();
+        scanf("%s%s",s1+1,s2+1);
+        for(int i=0; i<20; i++) es[i].clear();
+        for(int i=0; i<20; i++) fa[i]=i;
+        memset(g,0,sizeof(g));
+        for(int i=1; i<=n; i++){
+            int x=s1[i]-'a', y=s2[i]-'a';
+            if(x==y||g[x][y]) continue;
+            es[x].pb(y); g[x][y]=1;
+            int fx=get(x), fy=get(y);
+            if(fx!=fy) fa[fx]=fy;
+        }
+        int ans=0;
+        for(int i=0; i<20; i++){
+            int G=0;
+            for(int j=0; j<20; j++){
+                if(get(j)==i) G|=(1<<j);
+            }
+            if(G) ans+=solve(G);
+        }
+        printf("%d\n",ans);
+    }
+    return 0;
+}
+```
 
 ---
 
-## 9 Financiers Game
+## 9 Financiers Game（BL）
 
 ### 描述
 
