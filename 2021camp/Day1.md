@@ -148,7 +148,109 @@ int main(){
 
 ## 5 Fountains（BL）
 
-https://www.cnblogs.com/reverymoon/p/14153891.html
+### 题目
+
+https://codeforces.ml/gym/102900/problem/F
+
+### 题解
+
+​	每个区间一定贪心的取最大的可行区间。
+
+​	对所有可选择区间按值排序，状压DP。
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int, int>
+#define fir first
+#define sec second
+#define pb emplace_back
+
+#define gc() getchar()
+inline int read()
+{
+    int now=0,f=1; char c=gc();
+    for(;!isdigit(c);c=='-'&&(f=-1),c=gc());
+    for(;isdigit(c);now=now*10+c-48,c=gc());
+    return now*f;
+}
+const int mod = 998244353;
+inline int add(int a,int b){return a+b>=mod? a+b-mod: a+b;}
+inline int sub(int a,int b){return a<b? a-b+mod: a-b;}
+inline int mul(int a,int b){return 1LL*a*b%mod;}
+int qpow(int a,int b){
+    int ret=1;
+    for(; b; b>>=1){
+        if(b&1) ret=mul(ret,a);
+        a=mul(a,a);
+    }
+    return ret;
+}
+
+const int N=15;
+const int M=105;
+struct node{
+    int l, r; ll x;
+};
+bool cmp(node a, node b){
+    return a.x > b.x;
+}
+ll s[N]{0}, ans[M];
+ll code(int n,int a[]){
+    ll ret=a[n+1];
+    for(int i=n; i>=1; --i) ret=ret*10+a[i];
+    return ret;
+}
+void decode(ll x,int n,int a[]){
+    for(int i=1; i<=n; i++) a[i]=x%10, x/=10;
+    a[n+1]=x;
+}
+map<ll,ll> f[2];
+vector<node> vec;
+int main(){
+    int n=read();
+    for(int i=1; i<=n; i++) s[i]=read()+s[i-1];
+    ll sum=0;
+    for(int l=1; l<=n; l++){
+        for(int r=l; r<=n; r++){
+            sum+=s[r]-s[l-1];
+            vec.pb(node{l,r,s[r]-s[l-1]});
+        }
+    }
+    sort(vec.begin(),vec.end(),cmp);
+    int a[15];
+    for(int i=1; i<=n; i++) a[i]=n; a[n+1]=0;
+    f[1][code(n,a)]=0;
+    for(auto seg: vec) {
+        int l=seg.l, r=seg.r; ll val=seg.x;
+        f[0] = f[1];
+        for (auto &pr: f[0]) {
+            ll x = pr.fir, y = pr.sec;
+            decode(x, n, a);
+            for (int i=1; i<=l; i++) {
+                if (a[i] >= r) {
+                    y += (a[i]-r+1) * val;
+                    a[i] = r-1;
+                }
+            }
+            a[n+1]++;
+            ll nx = code(n, a);
+            f[1][nx] = max(f[1][nx], y);
+        }
+    }
+    memset(ans,0,sizeof(ans));
+    for(auto &pr: f[1]){
+        ll x=pr.fir, y=pr.sec;
+        decode(x,n,a);
+        ans[a[n+1]]=max(ans[a[n+1]],y);
+    }
+    int m=n*(n+1)/2;
+    for(int i=1; i<=m; i++) printf("%lld\n",sum-ans[i]);
+    return 0;
+}
+```
 
 ---
 
