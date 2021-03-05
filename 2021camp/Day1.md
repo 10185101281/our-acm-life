@@ -605,4 +605,8 @@ https://www.cnblogs.com/lhm-/p/13697304.html
 
 ## 11 Cell Blocking
 
-https://www.cnblogs.com/Ike-shadow/p/14093202.html
+### 题目
+
+https://codeforces.com/gym/102538/problem/C
+
+### 题解
