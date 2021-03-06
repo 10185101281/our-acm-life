@@ -599,7 +599,13 @@ int main(){
 
 ## 10 The Hanged Man（HDU 6566）
 
+### 题目
+
 https://www.cnblogs.com/lhm-/p/13697304.html
+
+### 题解
+
+
 
 ---
 
@@ -610,3 +616,94 @@ https://www.cnblogs.com/lhm-/p/13697304.html
 https://codeforces.com/gym/102538/problem/C
 
 ### 题解
+
+​	分类讨论。
+
+- 如果一开始就不联通，那么答案为$\frac{cnt\times (cnt-1)}{2}$，$cnt$为空地个数。
+
+- 否则，预处理出每个斜对角线上的可行点（可达起点和终点）的位置。枚举对角线：
+    - 如果可行点个数为1，则将该点填充，任取另外一个空地即可。
+    - 否则，必然要填充最左边或最右边的可行点（填充中间点无意义）。对于只填充一边可行点的情况，贪心向后搜索每个斜对角线，对于可以只填充一个位置的对角线记录到答案中。
+
+```c++
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int, int>
+#define fir first
+#define sec second
+#define pb emplace_back
+
+#define gc() getchar()
+inline int read()
+{
+    int now=0,f=1; char c=gc();
+    for(;!isdigit(c);c=='-'&&(f=-1),c=gc());
+    for(;isdigit(c);now=now*10+c-48,c=gc());
+    return now*f;
+}
+
+const int N=3e3+10;
+char g[N][N];
+int f[2][N][N];
+vector<int> vec[N<<1];
+int main(){
+    int n=read(), m=read();
+    for(int i=1; i<=n; i++) scanf("%s",g[i]+1);
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=m; j++){
+            f[0][i][j] = ((i==1&&j==1)||f[0][i-1][j]||f[0][i][j-1]) && g[i][j]=='.';
+        }
+    }
+    for(int i=n; i>=1; --i){
+        for(int j=m; j>=1; --j){
+            f[1][i][j] = ((i==n&&j==m)||f[1][i+1][j]||f[1][i][j+1]) && g[i][j]=='.';
+        }
+    }
+
+    int cnt = 0;
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=m; j++){
+            if(g[i][j] == '.') cnt++;
+            if(f[0][i][j] && f[1][i][j]){
+                vec[i+j].pb(i);
+            } else {
+                g[i][j] = '*';
+            }
+        }
+    }
+
+    if(f[0][n][m] == 0){
+        printf("%lld\n",1LL*cnt*(cnt-1)/2);
+        return 0;
+    }
+
+    ll ans = 0;
+    //1, 2
+    for(int i=2; i<=n+m; i++){
+        if(vec[i].size() == 1) ans += (--cnt);
+        if(vec[i].size() == 2) ans ++;
+    }
+    //3
+    for(int i=2; i<=n+m; i++){
+        if(vec[i].size()==1) continue;
+
+        int r=vec[i][0], l=vec[i][vec[i].size()-2];
+        for(int j=i+1; j<=n+m; j++){
+            if(g[l+1][j-(l+1)]=='.') l++;
+            if(g[r][j-r]!='.') r++;
+            if(l==r && vec[j].size()!=1) ans++;
+        }
+
+        r=vec[i][1], l=vec[i][vec[i].size()-1];
+        for(int j=i+1; j<=n+m; j++){
+            if(g[l+1][j-(l+1)]=='.') l++;
+            if(g[r][j-r]!='.') r++;
+            if(l==r && vec[j].size()!=1) ans++;
+        }
+    }
+    printf("%lld\n",ans);
+    return 0;
+}
+```
