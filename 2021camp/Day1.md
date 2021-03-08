@@ -82,7 +82,7 @@ https://www.cnblogs.com/heyujun/p/10225419.html
 
 ​	$1\le n\le 12$。
 
-### 题解-bl
+### 题解
 
 ​	轮廓线DP。
 
@@ -601,9 +601,15 @@ int main(){
 
 ### 题目
 
-https://www.cnblogs.com/lhm-/p/13697304.html
+http://acm.hdu.edu.cn/showproblem.php?pid=6566
 
 ### 题解
+
+#### DFS序 重链剖分-GXB
+
+https://www.cnblogs.com/SovietPower/p/14418118.html
+
+#### 优先递归重儿子-BL
 
 
 
