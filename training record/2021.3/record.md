@@ -1,103 +1,98 @@
 # 2021.3
 
-----
+## 2017-2018 ICPC Central Quarter Final of Northeastern European Regional Collegiate Programming Contest
 
-### 1. 2017-2018 ICPC Central Quarter Final of Northeastern European Regional Collegiate Programming Contest
-
-#### link
+### link
 
 https://codeforces.ml/gym/102788
 
-#### scene
+### scene
 
 | A       | B       | C    | D       | E       | F       | G       | H       | I       | J       | K       | L       |
 | ------- | ------- | ---- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
 | $\circ$ | $\circ$ |      | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\circ$ |
 
-----
+##2018-2019 ICPC Southwestern European Regional Programming Contest (SWERC 2018)
 
-### 2. 2018-2019 ICPC Southwestern European Regional Programming Contest (SWERC 2018)
-
-#### link 
+### link 
 
 https://codeforces.ml/gym/102465
 
-#### scene
+### scene
 
 | A       | B       | C    | D       | E       | F       | G       | H       | I       | J         | K       |
 | ------- | ------- | ---- | ------- | ------- | ------- | ------- | ------- | ------- | --------- | ------- |
 | $\circ$ | $\circ$ |      | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\circ$ | $\times $ | $\circ$ |
 
-----
+## 2019ICPC亚洲区域赛(南京)
 
-### 3. 2019ICPC亚洲区域赛(南京)
-
-#### link 
+### link 
 
 https://vjudge.net/contest/426629#overview
 
-#### scene
+### scene
 
 | A       | B       | C       | D    | E    | F       | G    | H       | I         | J       | K       |
 | ------- | ------- | ------- | ---- | ---- | ------- | ---- | ------- | --------- | ------- | ------- |
 | $\circ$ | $\circ$ | $\circ$ |      |      | $\circ$ |      | $\circ$ | $\times $ | $\circ$ | $\circ$ |
 
------
+## Northern Eurasia Finals Online 2020
 
-### 4. Northern Eurasia Finals Online 2020
-
-#### link
+### link
 
 https://codeforces.ml/gym/102896
 
-#### scene
+### scene
 
 | A       | B    | C       | D         | E       | F    | G    | H    | I    | J    | K       | L    | M       | N    | O    |
 | ------- | ---- | ------- | --------- | ------- | ---- | ---- | ---- | ---- | ---- | ------- | ---- | ------- | ---- | ---- |
 | $\circ$ |      | $\circ$ | $\times $ | $\circ$ |      |      |      |      |      | $\circ$ |      | $\circ$ |      |      |
 
----
+## 2019-2020 ACM-ICPC Latin American Regional Programming Contest
 
-### 5. 2019-2020 ACM-ICPC Latin American Regional Programming Contest
-
-#### link
+### link
 
 https://codeforces.ml/gym/102428
 
-#### scene
+### scene
 
 | A    | B    | C       | D    | E       | F       | G       | H    | I       | J    | K       | L       | M       |
 | ---- | ---- | ------- | ---- | ------- | ------- | ------- | ---- | ------- | ---- | ------- | ------- | ------- |
 |      |      | $\circ$ |      | $\circ$ | $\circ$ | $\circ$ |      | $\circ$ |      | $\circ$ | $\circ$ | $\circ$ |
 
-----
+##  2018 China Collegiate Programming Contest - Guilin Site
 
-### 6. 2018 China Collegiate Programming Contest - Guilin Site
-
-#### link
+### link
 
 https://codeforces.ml/gym/102823
 
-#### scene
+### scene
 
 | A       | B    | C    | D       | E    | F    | G       | H       | I    | J       | K    | L        |
 | ------- | ---- | ---- | ------- | ---- | ---- | ------- | ------- | ---- | ------- | ---- | -------- |
 | $\circ$ |      |      | $\circ$ |      |      | $\circ$ | $\circ$ |      | $\circ$ |      | $\times$ |
 
------
+## 2020-2021 Winter Petrozavodsk Camp, Belarusian SU Contest (XXI Open Cup, Grand Prix of Belarus)
 
-### 7. 2020-2021 Winter Petrozavodsk Camp, Belarusian SU Contest (XXI Open Cup, Grand Prix of Belarus)
-
-#### link
+### link
 
 https://codeforces.ml/gym/102956
 
-#### scene
+### scene
 
 | A    | B    | C        | D       | E    | F    | G       | H    | I       | J       | K    | L    | M       | N       |
 | ---- | ---- | -------- | ------- | ---- | ---- | ------- | ---- | ------- | ------- | ---- | ---- | ------- | ------- |
 |      |      | $\times$ | $\circ$ |      |      | $\circ$ |      | $\circ$ | $\circ$ |      |      | $\circ$ | $\circ$ |
 
------
+## 2020-2021 Summer Petrozavodsk Camp, Day 6: Korean Contest
 
-### 
+### link
+
+https://codeforces.ml/gym/102984
+
+### scene
+
+| A    | B    | C    | D       | E       | F    | G       | H    | I    | J    | K         |
+| ---- | ---- | ---- | ------- | ------- | ---- | ------- | ---- | ---- | ---- | --------- |
+|      |      |      | $\circ$ | $\circ$ |      | $\circ$ |      |      |      | $\times $ |
+
