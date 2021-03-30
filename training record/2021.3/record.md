@@ -94,5 +94,5 @@ https://codeforces.ml/gym/102984
 
 | A    | B    | C    | D       | E       | F    | G       | H    | I    | J    | K         |
 | ---- | ---- | ---- | ------- | ------- | ---- | ------- | ---- | ---- | ---- | --------- |
-|      |      |      | $\circ$ | $\circ$ |      | $\circ$ |      |      |      | $\times $ |
+|$\times $|      |      | $\circ$ | $\circ$ |      | $\circ$ |      |      |      | $\times $ |
 
