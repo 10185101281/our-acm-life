@@ -94,5 +94,17 @@ https://codeforces.ml/gym/102984
 
 | A    | B    | C    | D       | E       | F    | G       | H    | I    | J    | K         |
 | ---- | ---- | ---- | ------- | ------- | ---- | ------- | ---- | ---- | ---- | --------- |
-|$\times $|      |      | $\circ$ | $\circ$ |      | $\circ$ |      |      |      | $\times $ |
+|Q|      |      | $\circ$ | $\circ$ |      | $\circ$ |      |      |      | B |
+
+## Samara Farewell Contest 2020 (XXI Open Cup, GP of Samara)
+
+### link
+
+https://codeforces.ml/gym/102916
+
+### scene
+
+| A    | B       | C    | D    | E    | F    | G       | H    | I    | J    | K    | L    | M    | N    |
+| ---- | ------- | ---- | ---- | ---- | ---- | ------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+|      | $\circ$ |      |      |      |      | $\circ$ |      |      |      |      |      |      |      |
 
