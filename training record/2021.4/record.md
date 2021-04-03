@@ -1,6 +1,6 @@
 # 2021.4
 
-## [Moscow Pre-Finals Workshop 2020 - Legilimens+Coffee Chicken Contest (XX Open Cup, Grand Prix of Nanjing)
+## Moscow Pre-Finals Workshop 2020 - Legilimens+Coffee Chicken Contest (XX Open Cup, Grand Prix of Nanjing)
 
 ### Link
 
@@ -10,5 +10,5 @@ https://codeforces.ml/gym/102994
 
 | A    | B    | C    | D    | E    | F    | G    | H    | I    | J       | K    | L       |      |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ------- | ---- | ------- | ---- |
-|      |      |      |      |      |      |      |      |      | $\circ$ |      | $\circ$ |      |
+| B    |      |      |      |      |      |      |      |      | $\circ$ |      | $\circ$ |      |
 
