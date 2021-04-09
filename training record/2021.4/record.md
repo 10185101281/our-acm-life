@@ -24,3 +24,14 @@ https://ac.nowcoder.com/acm/contest/12548#question
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
 |      |      | O    |      |      |      | O    | O    | O    | O    | O    | O    | O    |
 
+## 2020 ICPC, COMPFEST 12, Indonesia Multi-Provincial Contest (Unrated, Online Mirror, ICPC Rules, Teams Preferred)
+
+### Link
+
+https://codeforces.ml/contest/1425
+
+### scene
+
+| A    | B    | C    | D    | E    | F    | G    | H    | I    |
+| ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+| O    |      |      | O    | O    | O    |      | O    |      |
