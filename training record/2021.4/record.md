@@ -22,7 +22,7 @@ https://ac.nowcoder.com/acm/contest/12548#question
 
 | A    | B    | C    | D    | E    | F    | G    | H    | I    | J    | K    | L    | M    |
 | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
-|      |      | O    | B    |      |      | O    | O    | O    | O    | O    | O    | O    |
+| B    |      | O    | B    |      |      | O    | O    | O    | O    | O    | O    | O    |
 
 ## 2020 ICPC, COMPFEST 12, Indonesia Multi-Provincial Contest (Unrated, Online Mirror, ICPC Rules, Teams Preferred)
 

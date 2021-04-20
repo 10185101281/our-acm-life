@@ -4,7 +4,93 @@
 
 ### 题解
 
+​	计算$c_i$表示将原串第$i$位改为$a$，第$i+1$位改为$c$的代价。问题转化为：在$\sum c_i\le k$，且相邻两个$c_i$不同时被选的前提下，最多能选多少$c_i$。用堆维护反悔贪心解决。
+
 ### 代码
+
+```c++
+#include <bits/stdc++.h>
+
+#define pb push_back
+#define pii pair<int, int>
+#define fir first
+#define sec second
+#define ll long long
+#define rep(i,a,b) for(int i=(a); i<=(b); ++i)
+#define per(i,a,b) for(int i=(a); i>=(b); --i)
+
+using namespace std;
+
+#define gc() getchar()
+inline int read()
+{
+    int now=0,f=1; char c=gc();
+    for(;!isdigit(c);c=='-'&&(f=-1),c=gc());
+    for(;isdigit(c);now=now*10+c-48,c=gc());
+    return now*f;
+}
+
+const int N = 5e5+10;
+const int inf = 1e9;
+
+struct node{
+    int id, val;
+    bool operator < (const node &othr) const{
+        return val > othr.val;
+    }
+};
+priority_queue<node> pq;
+
+struct seg{
+    int l, r, val;
+    int mk, L, R;
+} a[N];
+void del(int x){
+    a[x].l = a[a[x].l].l;
+    a[x].r = a[a[x].r].r;
+    a[a[x].l].r = x;
+    a[a[x].r].l = x;
+}
+char s[N];
+int vis[N];
+int main(){
+    int n=read(), k=read();
+    scanf("%s",s+1);
+    rep(i,1,n-1){
+        int val = (s[i]!='a')+(s[i+1]!='c');
+        pq.push(node{i,val});
+        a[i]=seg{i-1,i+1,val,0,i,i};
+    }
+    memset(vis,0,sizeof(vis));
+    a[0].val = a[n].val = inf;
+    a[0].L=a[0].R=0; a[n].L=a[n].R=n;
+    int ans=0, cnt=0;
+    rep(i,1,n){
+        while(!pq.empty() && vis[pq.top().id]) pq.pop();
+        if(pq.empty() || cnt+pq.top().val > k) break;
+        node x = pq.top(); pq.pop();
+        ans ++; cnt += x.val;
+        x.val = a[x.id].val = a[a[x.id].l].val + a[a[x.id].r].val - x.val;
+        vis[a[x.id].l] = vis[a[x.id].r] = 1;
+        a[x.id].L = a[a[x.id].l].L;
+        a[x.id].R = a[a[x.id].r].R;
+        a[x.id].mk = 1;
+        a[a[x.id].l].mk = a[a[x.id].r].mk = 0;
+        pq.push(x);
+        del(x.id);
+    }
+    printf("%d\n",ans);
+    rep(i, 1, n-1){
+        if(a[i].mk){
+            for(int j=a[i].L+1; j<=a[i].R; j+=2){
+                s[j]='a'; s[j+1]='c';
+            }
+        }
+    }
+    puts(s+1);
+    return 0;
+}
+```
 
 ## C Cities
 
