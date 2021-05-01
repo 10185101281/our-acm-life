@@ -1,7 +1,5 @@
 # 2018-2019 ICPC Northwestern European Regional Programming Contest (NWERC 2018)
 
------
-
 ## A Access Points
 
 ### 思路

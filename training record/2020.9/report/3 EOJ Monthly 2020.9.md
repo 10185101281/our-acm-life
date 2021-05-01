@@ -1,9 +1,5 @@
 # EOJ Monthly 2020.9
 
-
-
----
-
 ## 击鼓传花（EOJ Monthly 2020.9）
 
 ### 题意

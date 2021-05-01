@@ -1,7 +1,5 @@
 # SGWC-Difficult1
 
----
-
 ## A-AB Tree
 
 ### 思路
@@ -161,7 +159,13 @@ int main(){
 
 ## C-[Odd Mineral Resource](https://codeforces.com/problemset/problem/1479/D)
 
-### 思路
+题意
+
+​	给一颗结点为n的树。每个结点上有一种资源。
+
+​	q次询问。每次询问给出$(u,v,l,r)$，问结点u到v的路径上，是否存在某种资源$c_i$满足$l\le c_i\le r$，且这种资源有奇数个。
+
+思路
 
 ​	对每种资源赋值一个64位随机数权值。
 

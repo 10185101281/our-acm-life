@@ -1,8 +1,6 @@
 # ECNU Happy Winter #3
 
----
-
-## F
+## 
 
 ### 思路
 
